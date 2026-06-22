@@ -30,6 +30,78 @@
 
 ---
 
+## Docker 启动（推荐）
+
+> **推荐使用 Docker 方式**，无需手动安装 Python、Node.js、Ollama 等依赖，一条命令即可启动全部服务。
+
+### 前提条件
+
+- [Docker](https://docs.docker.com/get-docker/) 20.10+
+- [Docker Compose](https://docs.docker.com/compose/install/) v2+
+
+验证安装：
+
+```bash
+docker --version
+docker compose version
+```
+
+### 一键启动
+
+```bash
+# 克隆项目
+git clone <repository-url>
+cd agentDemo
+
+# 构建并启动所有服务
+docker compose up -d --build
+```
+
+首次启动需要拉取模型，耗时较长，可通过日志查看进度：
+
+```bash
+docker compose logs -f
+```
+
+启动完成后访问：
+- 前端界面: http://localhost
+- 后端 API: http://localhost:8000
+- API 文档: http://localhost:8000/docs
+- Ollama API: http://localhost:21434
+
+### 常用命令
+
+```bash
+# 查看服务状态
+docker compose ps
+
+# 查看日志
+docker compose logs -f
+docker compose logs -f backend
+
+# 停止服务
+docker compose down
+
+# 重启服务
+docker compose restart
+
+# 进入容器
+docker compose exec backend bash
+docker compose exec ollama bash
+
+# 拉取模型
+docker compose exec ollama ollama pull qwen3.5:0.8b
+docker compose exec ollama ollama pull qwen3-embedding:0.6b
+
+# 查看模型列表
+docker compose exec ollama ollama list
+
+# 清理数据（删除向量数据库和上传文件）
+docker compose down -v
+```
+
+---
+
 ## 本地启动
 
 ### 前提条件
@@ -98,76 +170,6 @@ cd frontend && npm run dev
 ```
 
 </details>
-
----
-
-## Docker 启动
-
-### 前提条件
-
-- [Docker](https://docs.docker.com/get-docker/) 20.10+
-- [Docker Compose](https://docs.docker.com/compose/install/) v2+
-
-验证安装：
-
-```bash
-docker --version
-docker compose version
-```
-
-### 一键启动
-
-```bash
-# 克隆项目
-git clone <repository-url>
-cd agentDemo
-
-# 构建并启动所有服务
-docker compose up -d --build
-```
-
-首次启动需要拉取模型，耗时较长，可通过日志查看进度：
-
-```bash
-docker compose logs -f
-```
-
-启动完成后访问：
-- 前端界面: http://localhost
-- 后端 API: http://localhost:8000
-- API 文档: http://localhost:8000/docs
-- Ollama API: http://localhost:21434
-
-### 常用命令
-
-```bash
-# 查看服务状态
-docker compose ps
-
-# 查看日志
-docker compose logs -f
-docker compose logs -f backend
-
-# 停止服务
-docker compose down
-
-# 重启服务
-docker compose restart
-
-# 进入容器
-docker compose exec backend bash
-docker compose exec ollama bash
-
-# 拉取模型
-docker compose exec ollama ollama pull qwen3.5:0.8b
-docker compose exec ollama ollama pull qwen3-embedding:0.6b
-
-# 查看模型列表
-docker compose exec ollama ollama list
-
-# 清理数据（删除向量数据库和上传文件）
-docker compose down -v
-```
 
 ---
 
