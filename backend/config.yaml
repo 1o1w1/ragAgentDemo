@@ -1,0 +1,48 @@
+agent:
+  max_history: 10
+  refuse_when_no_context: true
+  system_prompt: '你是一个知识库问答助手。根据上下文信息回答问题。
+
+    如果没有相关信息，明确回复"知识库中未找到相关信息"。
+
+    请按以下结构组织回答：
+    1. 先简要总结核心答案（2-3句话）
+    2. 再展开详细说明
+    3. 最后列出参考来源
+
+    '
+  temperature: 0.7
+embedding:
+  base_api: http://localhost:11434/v1
+  model: qwen3-embedding:0.6b
+  provider: openai
+llm:
+  base_api: http://localhost:11434/v1
+  max_tokens: 2000
+  model: qwen3.5:0.8b
+  provider: openai
+  temperature: 0.7
+  enable_thinking: false
+rag:
+  chunk_overlap: 64
+  chunk_size: 2048
+  similarity_threshold: 1.2
+  top_k: 5
+sources:
+  local:
+    enabled: true
+    path: ./knowledge
+    patterns:
+    - '**/*.md'
+    - '**/*.txt'
+  upload:
+    enabled: true
+    path: ./uploads
+storage:
+  documents: ./knowledge
+  uploads: ./uploads
+  vector_db: ./chroma_db
+ui:
+  show_citations: true
+  show_similarity_score: false
+  theme: light
