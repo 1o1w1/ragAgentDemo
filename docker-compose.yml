@@ -1,12 +1,11 @@
 services:
   ollama:
-    image: ollama/ollama:latest
+    build:
+      context: ./ollama
+      dockerfile: Dockerfile
     container_name: rag-ollama
     ports:
       - "21434:11434"
-    volumes:
-      - ./scripts/ollama-init.sh:/init.sh
-    entrypoint: ["/bin/bash", "/init.sh"]
     healthcheck:
       test: ["CMD-SHELL", "ollama list > /dev/null 2>&1"]
       interval: 10s
