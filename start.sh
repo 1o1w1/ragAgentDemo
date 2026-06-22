@@ -26,6 +26,13 @@ if ! "$VENV_DIR/bin/python" -c "import uvicorn" 2>/dev/null; then
     "$VENV_DIR/bin/python" -m pip install -r "$SCRIPT_DIR/backend/requirements.txt"
 fi
 
+# 检查 npm
+if ! command -v npm &> /dev/null; then
+    echo "⚠️  未检测到 npm，请先安装 Node.js 和 npm"
+    echo "   访问 https://nodejs.org 下载安装"
+    exit 1
+fi
+
 # 检查 Ollama
 if ! command -v ollama &> /dev/null; then
     echo "⚠️  未检测到 Ollama，请先安装 Ollama"
@@ -65,6 +72,10 @@ sleep 3
 # 启动前端
 echo "🖥️  启动前端服务..."
 cd frontend
+if [ ! -d "node_modules" ]; then
+    echo "📥 安装前端依赖..."
+    npm install
+fi
 npm run dev &
 FRONTEND_PID=$!
 cd ..
